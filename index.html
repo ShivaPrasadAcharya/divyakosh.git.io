@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Divyakosh - Spiritual Dictionary</title>
     
-    <!-- React -->
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- React and ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
     
     <!-- Babel -->
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -18,16 +18,28 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
     
-    <!-- Custom styles -->
     <link href="style.css" rel="stylesheet">
 </head>
 <body>
     <div id="root"></div>
 
     <!-- Components -->
-    <script type="text/babel" src="components/ui/input.js"></script>
-    <script type="text/babel" src="components/ui/card.js"></script>
-    <script type="text/babel" src="components/SpiritualDictionary.js"></script>
-    <script type="text/babel" src="app.js"></script>
+    <script type="text/babel" data-presets="react" src="components/ui/input.js"></script>
+    <script type="text/babel" data-presets="react" src="components/ui/card.js"></script>
+    <script type="text/babel" data-presets="react" src="components/SpiritualDictionary.js"></script>
+    <script type="text/babel" data-presets="react">
+        const App = () => (
+            <div className="App">
+                <SpiritualDictionary />
+            </div>
+        );
+
+        ReactDOM.render(
+            <React.StrictMode>
+                <App />
+            </React.StrictMode>,
+            document.getElementById('root')
+        );
+    </script>
 </body>
 </html>
