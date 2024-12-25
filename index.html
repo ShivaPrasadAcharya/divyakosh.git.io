@@ -13,7 +13,7 @@
     <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
     
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
@@ -23,17 +23,77 @@
 <body>
     <div id="root"></div>
 
-    <!-- Components -->
-    <script type="text/babel" data-presets="react" src="components/ui/input.js"></script>
-    <script type="text/babel" data-presets="react" src="components/ui/card.js"></script>
-    <script type="text/babel" data-presets="react" src="components/SpiritualDictionary.js"></script>
-    <script type="text/babel" data-presets="react">
+    <script type="text/babel">
+        const Input = React.forwardRef(({ className = '', ...props }, ref) => (
+            <input
+                ref={ref}
+                className={`flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm 
+                         ring-offset-white placeholder:text-gray-500 focus:outline-none focus:ring-2 
+                         focus:ring-gray-400 focus:ring-offset-2 disabled:cursor-not-allowed 
+                         disabled:opacity-50 ${className}`}
+                {...props}
+            />
+        ));
+
+        const Card = ({ className = '', ...props }) => (
+            <div className={`rounded-lg border border-gray-200 bg-white text-gray-950 shadow-sm ${className}`} {...props} />
+        );
+
+        const CardHeader = ({ className = '', ...props }) => (
+            <div className={`flex flex-col space-y-1.5 p-6 ${className}`} {...props} />
+        );
+
+        const CardTitle = ({ className = '', ...props }) => (
+            <h3 className={`text-2xl font-semibold leading-none tracking-tight ${className}`} {...props} />
+        );
+
+        const CardContent = ({ className = '', ...props }) => (
+            <div className={`p-6 pt-0 ${className}`} {...props} />
+        );
+
+        // SpiritualDictionary component with fixed syntax
+        window.SpiritualDictionary = function() {
+            const [searchTerm, setSearchTerm] = React.useState('');
+            // ... [Previous state and functions remain the same] ...
+
+            return (
+                <div className="max-w-4xl mx-auto p-6">
+                    <Card className="mb-6">
+                        {/* ... Rest of your component JSX ... */}
+                    </Card>
+                    <div className="space-y-4">
+                        {filteredEntries.map((entry) => (
+                            <Card key={entry.id} id={entry.id} className="hover:shadow-lg transition-shadow scroll-mt-6">
+                                <CardHeader>
+                                    {/* ... */}
+                                </CardHeader>
+                                <CardContent>
+                                    <ul className="list-disc pl-5 space-y-2">
+                                        {entry.content.map(({ text, sourceTerm }, idx) => (
+                                            <li key={idx} className="leading-relaxed">
+                                                {highlightText(text, searchTerms, filteredEntries)}
+                                                {sourceTerm && sourceTerm !== entry.term && (
+                                                    <span className="text-gray-500 ml-2">[from: {sourceTerm}]</span>
+                                                )}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </div>
+                </div>
+            );
+        };
+
+        // App component
         const App = () => (
             <div className="App">
                 <SpiritualDictionary />
             </div>
         );
 
+        // Render the app
         ReactDOM.render(
             <React.StrictMode>
                 <App />
