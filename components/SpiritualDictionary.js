@@ -1,5 +1,7 @@
-const SpiritualDictionary = () => {
-  const [searchTerm, setSearchTerm] = React.useState('');
+// Add this line at the beginning to declare it in global scope
+window.SpiritualDictionary = (() => {
+  const SpiritualDictionary = () => {
+    const [searchTerm, setSearchTerm] = React.useState('');
 
   const highlightColors = [
     'bg-yellow-200 hover:bg-yellow-300',
@@ -227,63 +229,66 @@ const SpiritualDictionary = () => {
   const SearchIcon = lucide.Search;
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <Card className="mb-6">
-        <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">
-            Spiritual Dictionary
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="relative">
-            <SearchIcon className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
-            <Input
-              type="text"
-              placeholder="Use | for any match, || for same-line matches..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-8"
-            />
-          </div>
-          <div className="text-sm text-gray-500 mt-2">
-            Examples: "karma|action" for any matches, "karma||action" for same-line matches
-          </div>
-        </CardContent>
-      </Card>
+      <div className="max-w-4xl mx-auto p-6">
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold text-center">
+              Spiritual Dictionary
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="relative">
+              <SearchIcon className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
+              <Input
+                type="text"
+                placeholder="Use | for any match, || for same-line matches..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-8"
+              />
+            </div>
+            <div className="text-sm text-gray-500 mt-2">
+              Examples: "karma|action" for any matches, "karma||action" for same-line matches
+            </div>
+          </CardContent>
+        </Card>
 
-      <div className="space-y-4">
-        {filteredEntries.map((entry) => (
-          <Card 
-            key={entry.id}
-            id={entry.id}
-            className="hover:shadow-lg transition-shadow scroll-mt-6"
-          >
-            <CardHeader>
-              <div className="flex justify-between items-start">
-                <CardTitle className="text-xl font-semibold">
-                  {highlightText(entry.term, searchTerms, filteredEntries)}
-                </CardTitle>
-                <div className="text-sm text-gray-500 text-right">
-                  <div>Compiled: {formatDate(entry.compiledDate)}</div>
-                  <div>Last edited: {formatDate(entry.editedDate)}</div>
+        <div className="space-y-4">
+          {filteredEntries.map((entry) => (
+            <Card 
+              key={entry.id}
+              id={entry.id}
+              className="hover:shadow-lg transition-shadow scroll-mt-6"
+            >
+              <CardHeader>
+                <div className="flex justify-between items-start">
+                  <CardTitle className="text-xl font-semibold">
+                    {highlightText(entry.term, searchTerms, filteredEntries)}
+                  </CardTitle>
+                  <div className="text-sm text-gray-500 text-right">
+                    <div>Compiled: {formatDate(entry.compiledDate)}</div>
+                    <div>Last edited: {formatDate(entry.editedDate)}</div>
+                  </div>
                 </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <ul className="list-disc pl-5 space-y-2">
-                {entry.content.map(({ text, sourceTerm }, idx) => (
-                  <li key={idx} className="leading-relaxed">
-                    {highlightText(text, searchTerms, filteredEntries)}
-                    {sourceTerm && sourceTerm !== entry.term && (
-                      <span className="text-gray-500 ml-2">[from: {sourceTerm}]</span>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-        ))}
+              </CardHeader>
+              <CardContent>
+                <ul className="list-disc pl-5 space-y-2">
+                  {entry.content.map(({ text, sourceTerm }, idx) => (
+                    <li key={idx} className="leading-relaxed">
+                      {highlightText(text, searchTerms, filteredEntries)}
+                      {sourceTerm && sourceTerm !== entry.term && (
+                        <span className="text-gray-500 ml-2">[from: {sourceTerm}]</span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
+
+  return SpiritualDictionary;
+})();
